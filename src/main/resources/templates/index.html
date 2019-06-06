@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="Hello"></title>
+    <link href="/css/main.css" rel="stylesheet">
+</head>
+<body>
+
+ 		<form th:action="@{/logout}" method="post">
+            <input type="submit" value="Sign Out"/>
+        </form>
+   <h1>Hello my Spring</h1>
+</body>
+</html>
