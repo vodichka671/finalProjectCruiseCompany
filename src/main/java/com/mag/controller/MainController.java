@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,22 +21,8 @@ import com.mag.repository.UserRepository;
 @Controller
 public class MainController {
 @Autowired
-private CrudRepository<User, Integer> repo;
-	@RequestMapping("/save")
-	String getSavePage() {
-		return "Saved";
-	}
+private JpaRepository<User, Long> repo;
 
-	@RequestMapping(value = "/save",method = RequestMethod.POST)
-	String index(@RequestParam String name, @RequestParam String password) {
-		User user = new User();
-		user.setName(name);
-		user.setPassword(password);
-		user.setActive(true);
-		user.setRoles(Collections.singleton(Role.USER));
-		repo.save(user);
-		return "Saved";
-	}
 	@RequestMapping("/all")
 	public @ResponseBody List<User> getUsers() {
 		return (List<User>) repo.findAll();
