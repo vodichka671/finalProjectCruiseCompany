@@ -14,11 +14,15 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+
+import com.mag.service.UserService;
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+	//@Autowired
+	//private DataSource dataSource;
 	@Autowired
-	private DataSource dataSource;
+	private UserService uService;
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		
@@ -35,11 +39,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 @Override
 protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-	auth.jdbcAuthentication()
-		.dataSource(dataSource)
-		.passwordEncoder(NoOpPasswordEncoder.getInstance())
-		.usersByUsernameQuery("select username, password, active from user where user.username=?")
-		.authoritiesByUsernameQuery("select user.username, user_role.roles from user inner join user_role on user.id=user_role.user_id where user.username = ?");
+	auth.userDetailsService(uService)
+		//jdbcAuthentication()
+		//.dataSource(dataSource)
+		.passwordEncoder(NoOpPasswordEncoder.getInstance());
+		
+		
+		//.usersByUsernameQuery("select username, password, active from user where user.username=?")
+		//.authoritiesByUsernameQuery("select user.username, user_role.roles from user inner join user_role on user.id=user_role.user_id where user.username = ?");
 	
 }
 
