@@ -26,23 +26,21 @@ public class RegistrationController {
 			return "registration";
 		}
 
-		@RequestMapping(value = "/registration",method = RequestMethod.POST)
+	@RequestMapping(value = "/registration",method = RequestMethod.POST)
 	public	String index(@ModelAttribute("user")User user) {
+			System.out.println(user);
 			User userFromDb = repo.findUserByUsername(user.getUsername());
-			//System.out.println(user.getName());
-			//userFromDb.ifPresent(useropt->System.out.println(useropt.getName()+"is present in db"));
+			
 			if (userFromDb!=null) {
 				System.out.println("User is already in db");
 				return "index";
 			}
-			//User newUser = new User();
-			//newUser.setUsername(username);
-			//newUser.setPassword(password);
+			
 			user.setActive(true);
 			user.setRoles(Collections.singleton(Role.USER));
 			repo.save(user);
 			
 			return "redirect:/login";
 		}
-
+		
 }

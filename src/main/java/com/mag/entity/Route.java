@@ -1,5 +1,6 @@
 package com.mag.entity;
 
+import java.math.BigDecimal;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -10,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Route {
@@ -19,12 +21,25 @@ public class Route {
 	String description;
 	Integer portAmount;
 	Integer duration;
+	BigDecimal price;
+
 	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "route_seaports",
 				joinColumns = {@JoinColumn(name = "route_id")},
 				inverseJoinColumns = {@JoinColumn(name="seaport_id")}
 			)
 	Set<Seaport> seaports;
+	
+	@OneToMany(mappedBy = "route")
+	Set<SeaJorney> jorneys;
+	
+	
+	
+	@Override
+	public String toString() {
+		
+		return ""+this.getId()+"\n" + this.getDescription()+"\n" + this.getDuration();
+	}
 	public Long getId() {
 		return id;
 	}
@@ -54,6 +69,18 @@ public class Route {
 	}
 	public void setDuration(Integer duration) {
 		this.duration = duration;
+	}
+	public BigDecimal getPrice() {
+		return price;
+	}
+	public void setPrice(BigDecimal price) {
+		this.price = price;
+	}
+	public Set<SeaJorney> getJorneys() {
+		return jorneys;
+	}
+	public void setJorneys(Set<SeaJorney> jorneys) {
+		this.jorneys = jorneys;
 	}
 	
 }

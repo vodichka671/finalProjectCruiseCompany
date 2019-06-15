@@ -18,21 +18,32 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.mag.domain.Role;
 import com.mag.domain.User;
+import com.mag.repository.CruiseShipRepository;
 import com.mag.repository.UserRepository;
 
 @Controller
 public class MainController {
 @Autowired
-private JpaRepository<User, Long> repo;
-	@RequestMapping("/hello/{name}")
-	public String hello(@PathVariable String name, Model model) {
-		model.addAttribute("message",name);
-		return"hello";
+private UserRepository userRepo;
+@Autowired CruiseShipRepository cruisRepo;
+	@RequestMapping("/")
+	public String hello( Model model) {
+		User admin = new User();
+		admin.setUsername("admin");
+		admin.setPassword("admin");
+		admin.setActive(true);
+		admin.setRoles(Collections.singleton(Role.ADMIN));
+		if(userRepo.findUserByUsername("admin")==null) {
+			userRepo.save(admin);
+		}
+		model.addAttribute("ships", cruisRepo.findAll());
+		return"/hello";
 	}
 
 	@RequestMapping("/all")
 	public @ResponseBody List<User> getUsers() {
-		return (List<User>) repo.findAll();
+		return (List<User>) userRepo.findAll();
 	}
+
 	
 }

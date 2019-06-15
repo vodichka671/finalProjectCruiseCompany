@@ -20,8 +20,8 @@ public class Seaport {
 	@ManyToMany(mappedBy = "seaports")
 	Set<Route> routes;
 	
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "excursion_id",referencedColumnName = "id")
+	@OneToOne(mappedBy = "seaport",cascade = CascadeType.ALL)
+	//@JoinColumn(referencedColumnName = "id")
 	Excursion excursion;
 	
 	public Long getId() {

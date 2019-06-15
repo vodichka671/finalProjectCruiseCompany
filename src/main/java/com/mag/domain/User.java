@@ -37,7 +37,14 @@ public class User  implements UserDetails{
 	  @Enumerated(EnumType.STRING)
 	  private Set<Role> roles; 
 	  
-	  
+	  @Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return ""+ id + username + password + active ;
+	}
+	 public boolean isAdmin() {
+		 return this.getRoles().contains(Role.ADMIN);
+	 }
 	public boolean isActive() {
 		return active;
 	}
